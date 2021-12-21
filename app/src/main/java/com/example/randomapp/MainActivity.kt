@@ -14,7 +14,6 @@ import com.example.randomapp.databinding.ActivityMainBinding
 import java.lang.StringBuilder
 
 lateinit var binding: ActivityMainBinding
-private val list = mutableListOf<Int>()
 private val randomList = mutableListOf<Int>()
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             enter.setOnClickListener {
                 enter.isEnabled = false
                 linear.clearFocus()
-                list.clear()
                 randomList.clear()
                 if (start.text.toString() != "" && end.text.toString() != "" && ramd.text.toString() != "") {
                     val startInt = start.text.toString().toInt()
@@ -47,17 +45,22 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (endInt - startInt >= ramdInt && startInt < endInt) {
                         val builder = StringBuilder()
-                        for (i in startInt..endInt) {
-                            list.add(i)
-                        }
-                        for (i in 0 until ramdInt) {
-                            val ramdNum = (0 until list.size).random()
-                            randomList.add(list[ramdNum])
-                            if (!binding.sameNumCB.isChecked) {
-                                list.removeAt(ramdNum)
+                        randomList.clear()
+                        if (!sameNumCB.isChecked) {
+                            while (randomList.size < ramdInt) {
+                                randomList.add((startInt..endInt).random())
+                                for (i in 0 until randomList.size - 1) {
+                                    if (randomList[i] == randomList[randomList.size - 1]) {
+                                        randomList.removeAt(randomList.size - 1)
+                                        break
+                                    }
+                                }
+                            }
+                        } else {
+                            while (randomList.size < ramdInt) {
+                                randomList.add((startInt..endInt).random())
                             }
                         }
-                        list.clear()
                         randomList.sort()
                         for (i in 0 until randomList.size) {
                             builder.append(randomList[i])
@@ -89,7 +92,6 @@ class MainActivity : AppCompatActivity() {
                 binding.drawerLayout.openDrawer(GravityCompat.START)
             }
             R.id.resetAll -> {
-                list.clear()
                 randomList.clear()
                 binding.start.setText("")
                 binding.end.setText("")
@@ -97,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 binding.sameNumCB.isChecked = false
                 binding.resultText.visibility = View.INVISIBLE
                 binding.result.setText("")
+                binding.linear.clearFocus()
             }
         }
         return true
