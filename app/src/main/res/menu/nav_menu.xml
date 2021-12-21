@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/randNum"
+            android:icon="@drawable/ic_baseline_123_24"
+            android:title="随机数" />
+        <item
+            android:id="@+id/randString"
+            android:icon="@drawable/ic_baseline_abc_24"
+            android:title="随机语句" />
+
+    </group>
+
+</menu>
