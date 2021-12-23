@@ -1,14 +1,11 @@
 package com.example.randomapp
 
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.core.view.GravityCompat
 import com.example.randomapp.databinding.ActivityMainBinding
 import java.lang.StringBuilder
@@ -29,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.apply {
             enter.setOnClickListener {
-                enter.isEnabled = false
                 linear.clearFocus()
                 randomList.clear()
                 if (start.text.toString() != "" && end.text.toString() != "" && ramd.text.toString() != "") {
@@ -44,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                         ramd.error = "取值个数太大"
                     }
                     if (endInt - startInt >= ramdInt && startInt < endInt) {
+                        enter.isEnabled = false
                         val builder = StringBuilder()
                         randomList.clear()
                         if (!sameNumCB.isChecked) {
@@ -100,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 binding.resultText.visibility = View.INVISIBLE
                 binding.result.setText("")
                 binding.linear.clearFocus()
+                binding.enter.isEnabled = true
             }
         }
         return true
